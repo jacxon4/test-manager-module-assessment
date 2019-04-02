@@ -1,0 +1,42 @@
+@startuml
+
+Interface ITest
+TestManagerModule ...> ITest
+TestManagerModule ...> IOperation
+ITest <|.. MicrobiologyTest
+ITest <|.. BiochemistryTest
+ITest <|.. HaematologyTest
+ITest <|.. ImmunologyTest
+Order o-- ITest
+
+
+IOperation <|.. ValidateOperation
+IOperation <|.. RepeatOperation
+
+Order : - tests: ITest[]
+ITest : {abstract}accept(IOperation)
+ITest : - testType: string
+ITest : - name: string
+MicrobiologyTest : - microbiologyTestProp: string
+MicrobiologyTest : +accept(IOperation){operation.perform(this)}
+BiochemistryTest : - biochemistryTestProp: string
+BiochemistryTest : +accept(IOperation){operation.perform(this)}
+HaematologyTest : - haematologyTestProp: string
+HaematologyTest : +accept(IOperation){operation.perform(this)}
+ImmunologyTest : - immunologyTestProp: string
+ImmunologyTest : +accept(IOperation){operation.perform(this)}
+
+Interface IOperation
+IOperation : {abstract}perform(ITest)
+ValidateOperation : +perform(ITest)
+RepeatOperation : +perform(ITest)
+
+enum TestTypes{
+    Haematology
+    Microbiology
+    Immunology
+    Biochemistry
+}
+
+
+@enduml
